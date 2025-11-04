@@ -1,8 +1,8 @@
 // func/components.js
 // Initializes self-contained UI components like the mobile menu and slider.
 
-import { id } from './domUtils.js';
-import { AUTOPLAY_MS } from './config.js';
+import { id } from "./domUtils.js";
+import { AUTOPLAY_MS } from "./config.js";
 
 export function initMobileMenu() {
   const btn = id("btn-mobile"),
@@ -34,9 +34,7 @@ export function initSlider() {
   const prev = id("prev"),
     next = id("next"),
     dots = id("dots");
-  const slides = Array.from(slidesEl.children).filter(
-    (n) => n.nodeType === 1
-  );
+  const slides = Array.from(slidesEl.children).filter((n) => n.nodeType === 1);
   const N = slides.length;
   if (N === 0) return;
 

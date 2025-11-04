@@ -1,45 +1,38 @@
 // func/renderer.js
-// Functions responsible for rendering HTML to the page.
+// Responsável por renderizar o HTML da loja (produtos, modal e notificações)
 
-import { products } from './data.js';
-import { addToCart } from './state.js';
+import { products } from "./data.js";
+import { addToCart } from "./state.js";
 
-/*
- * Generates HTML for star ratings.
- * @param {number} rating - The product rating.
- * @returns {string} The HTML string for the stars.
+/**
+ * Gera HTML de estrelas baseado na nota do produto
  */
 export function generateStars(rating) {
   let starsHTML = "";
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating % 1 !== 0;
 
-  for (let i = 0; i < fullStars; i++) {
+  for (let i = 0; i < fullStars; i++)
     starsHTML += '<i class="fas fa-star"></i>';
-  }
-
-  if (hasHalfStar) {
-    starsHTML += '<i class="fas fa-star-half-alt"></i>';
-  }
+  if (hasHalfStar) starsHTML += '<i class="fas fa-star-half-alt"></i>';
 
   const emptyStars = 5 - Math.ceil(rating);
-  for (let i = 0; i < emptyStars; i++) {
+  for (let i = 0; i < emptyStars; i++)
     starsHTML += '<i class="far fa-star"></i>';
-  }
 
   return starsHTML;
 }
 
-/*
- * Renders a list of products to the product grid container.
- * @param {Array|string} source - The array of products to render, or a filter string.
+/**
+ * Renderiza a lista de produtos no container indicado
+ * @param {Array|string} source - Lista de produtos ou string de filtro/tab
+ * @param {HTMLElement} container - Container onde os produtos serão renderizados
  */
-export function renderProducts(source = "all") {
-  const productGrid = document.querySelector(
-    ".product_grid .products-container"
-  );
+export function renderProducts(source = "all", container = null) {
+  const productGrid =
+    container || document.querySelector(".product_grid .products-container");
   if (!productGrid) {
-    console.error("Product grid container not found");
+    console.error("❌ Product grid container not found");
     return;
   }
 
@@ -80,9 +73,7 @@ export function renderProducts(source = "all") {
         <div class="product-category">${product.category}</div>
         <h4 class="product-name">${product.name}</h4>
         <div class="product-rating">
-          <div class="stars">
-            ${generateStars(product.rating)}
-          </div>
+          <div class="stars">${generateStars(product.rating)}</div>
           <span class="rating-count">(${product.reviews})</span>
         </div>
         <div class="product-price">
@@ -101,8 +92,7 @@ export function renderProducts(source = "all") {
 }
 
 /**
- * Shows a modal with product details.
- * @param {number} productId - The ID of the product to show.
+ * Mostra o modal de detalhes do produto
  */
 export function showProductModal(productId) {
   const product = products.find((p) => p.id === productId);
@@ -133,14 +123,12 @@ export function showProductModal(productId) {
     `;
     document.body.appendChild(modal);
 
-    modal.querySelector(".close").addEventListener("click", function () {
+    modal.querySelector(".close").addEventListener("click", () => {
       modal.classList.remove("active");
     });
 
-    window.addEventListener("click", function (e) {
-      if (e.target === modal) {
-        modal.classList.remove("active");
-      }
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) modal.classList.remove("active");
     });
   }
 
@@ -150,16 +138,16 @@ export function showProductModal(productId) {
   ).textContent = `$${product.price}`;
   document.getElementById("modal-product-image").src = product.image;
 
-  // Add event listeners for modal buttons
-  document.getElementById('add-to-cart-modal').onclick = () => addToCart(product.id);
-  document.getElementById('add-to-wishlist-modal').onclick = () => addToWishlist(product.id);
+  document.getElementById("add-to-cart-modal").onclick = () =>
+    addToCart(product.id);
+  document.getElementById("add-to-wishlist-modal").onclick = () =>
+    addToWishlist(product.id);
 
   modal.classList.add("active");
 }
 
 /**
- * Shows a toast notification.
- * @param {string} message - The message to display.
+ * Mostra um toast de notificação
  */
 export function showToast(message) {
   let toast = document.getElementById("toast");
@@ -172,18 +160,14 @@ export function showToast(message) {
 
   toast.textContent = message;
   toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 3000);
+  setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
 /**
- * Adds a product to the wishlist (placeholder).
- * @param {number} productId - The ID of the product to add.
+ * Adiciona produto à wishlist (local)
  */
 export function addToWishlist(productId) {
   const product = products.find((p) => p.id === productId);
   if (!product) return;
-  showToast(`${product.name} added to wishlist!`);
+  showToast(`${product.name} adicionado à lista de desejos!`);
 }

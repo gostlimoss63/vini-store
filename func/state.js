@@ -1,17 +1,20 @@
 // func/state.js
-// Manages the global application state, such as the shopping cart.
+// Gerencia o estado global da aplicação (carrinho, busca, categoria, etc.)
 
-import { products } from './data.js';
-import { showToast } from './renderer.js';
+import { products } from "./data.js";
+import { showToast } from "./renderer.js";
 
 export const state = {
   cart: [],
   cartCount: 0,
+  search: "", // texto da busca
+  category: "all", // categoria selecionada
+  tab: "all", // aba ativa (ex: sale, new, best)
 };
 
-/*
- * Adds a product to the shopping cart.
- * @param {number} productId - The ID of the product to add.
+/**
+ * Adiciona um produto ao carrinho
+ * @param {number} productId - ID do produto
  */
 export function addToCart(productId) {
   const product = products.find((p) => p.id === productId);
@@ -22,21 +25,24 @@ export function addToCart(productId) {
   if (existingItem) {
     existingItem.quantity += 1;
   } else {
-    state.cart.push({
-      ...product,
-      quantity: 1,
-    });
+    state.cart.push({ ...product, quantity: 1 });
   }
 
   updateCartCount();
-  showToast(`${product.name} added to cart!`);
+  showToast(`${product.name} adicionado ao carrinho!`);
 }
 
-/*
- * Updates the cart count display in the UI.
+/**
+ * Atualiza a contagem do carrinho no cabeçalho
  */
 export function updateCartCount() {
-  state.cartCount = state.cart.reduce((total, item) => total + item.quantity, 0);
+  state.cartCount = state.cart.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
   const cartCountElement = document.querySelector(".cart-count");
-  if (cartCountElement) cartCountElement.textContent = state.cartCount;
+  if (cartCountElement) {
+    cartCountElement.textContent = state.cartCount;
+  }
 }

@@ -1,52 +1,115 @@
 // func/app.js
-// The main application controller. Initializes everything in the correct order.
+// Controla a inicialização geral da aplicação.
 
-import { loadFragments } from './services.js';
-import { initProductGrid, initSearchBar, attachProductEventListeners } from './productGrid.js';
-import { initMobileMenu, initSlider } from './components.js';
-import { renderProducts } from './renderer.js';
-import { updateCartCount } from './state.js';
-import { FRAGS } from './config.js';
-import { id } from './domUtils.js';
+import { loadFragments } from "./services.js";
+import {initProductGrid,attachProductEventListeners,updateProductGrid,} from "./productGrid.js";
+import { initMobileMenu, initSlider } from "./components.js";
+import { renderProducts } from "./renderer.js";
+import { updateCartCount, state } from "./state.js";
+import { FRAGS } from "./config.js";
+import { id } from "./domUtils.js";
+import { products } from "./data.js";
 
+// ✅ Mapeamento de categorias (caso precise associar nomes diferentes)
+const CATEGORY_MAP = {
+  casual: "casual",
+  polos: "polos",
+  social: "social",
+  jaquetas: "jaquetas",
+  moletons: "moletons",
+  calças: "calças",
+  calcas: "calças",
+  bermudas: "bermudas",
+  acessorios: "acessorios",
+  accessories: "acessorios",
+  fashion: "fashion",
+  electronics: "electronics",
+  "men's wear": "men's wear",
+  "women's wear": "women's wear",
+  "home & garden": "home & garden",
+};
+
+// ✅ Inicializa busca e categorias
+export function initSearchAndCategories() {
+  const searchInput = document.getElementById("search-desktop");
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      state.search = e.target.value.toLowerCase().trim();
+      updateProductGrid();
+    });
+  }
+
+  const categoryButtons = document.querySelectorAll(".categoria-btn");
+  if (!categoryButtons.length) return;
+
+  categoryButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const selected = btn.dataset.categoria.toLowerCase().trim();
+      const mapped = CATEGORY_MAP[selected] || selected;
+
+      // Verifica se botão já está ativo
+      const isActive = btn.classList.contains("active");
+
+      // Remove classe "active" de todos
+      categoryButtons.forEach((b) => b.classList.remove("active"));
+
+      if (isActive) {
+        // 🔹 Se clicou de novo → limpa filtro
+        state.category = "all";
+        renderProducts(products);
+      } else {
+        // 🔹 Aplica o filtro e adiciona destaque
+        btn.classList.add("active");
+        state.category = mapped;
+        const filtered = products.filter(
+          (p) => p.category.toLowerCase() === state.category
+        );
+        renderProducts(filtered);
+      }
+
+      // 🔄 Atualiza grade e reanexa eventos dos botões (add-to-cart, wishlist, etc)
+      attachProductEventListeners();
+    });
+  });
+}
+
+// ✅ Inicialização principal
 async function init() {
   try {
-    // 1. Load all HTML fragments first
     await loadFragments();
-    await Promise.resolve(); // Allows the DOM to parse the newly injected HTML
+    await Promise.resolve();
 
-    // 2. Initialize all components
-    initProductGrid();
-    initSearchBar();
-    initMobileMenu();
-    initSlider();
-    updateCartCount(); // Initial cart count display
-
-    // 3. Attach event listeners to dynamically created elements
-    // This needs to run after products are rendered.
-    attachProductEventListeners();
-    
-    // Re-attach listeners whenever products are re-rendered
-    const originalRenderProducts = renderProducts;
-    renderProducts = function(...args) {
-      originalRenderProducts.apply(this, args);
+    setTimeout(() => {
+      initProductGrid();
+      initMobileMenu();
+      initSlider();
+      updateCartCount();
+      renderProducts(products);
+      initSearchAndCategories();
       attachProductEventListeners();
-    };
 
-    console.log("✅ Loja inicializada!");
+      // 🔄 Reanexa listeners após re-renderizar produtos
+      const originalRenderProducts = renderProducts;
+      window.renderProducts = function (...args) {
+        originalRenderProducts.apply(this, args);
+        attachProductEventListeners();
+      };
+
+      console.log("✅ Loja inicializada com sucesso!");
+    }, 150);
   } catch (e) {
     console.error("Erro na inicialização:", e);
   }
 }
 
-// Start the app when the DOM is ready
+// 🚀 Inicia o app quando o DOM estiver pronto
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", init);
 } else {
   init();
 }
 
-// Helpful local-file hint from original script
+// ⚠️ Aviso caso fragments falhem no modo file://
 setTimeout(() => {
   const empty = FRAGS.every((n) => {
     const el = id(n);
@@ -54,10 +117,10 @@ setTimeout(() => {
   });
   if (empty) {
     console.warn(
-      "Fragments empty — if you opened index.html via file:// the browser may block fetch. Run a local server (e.g. python -m http.server)."
+      "Fragments vazios — se abriu via file://, use um servidor local (ex: python -m http.server)"
     );
     const note = document.createElement("div");
-    note.textContent = "Fragments failed to load — see console";
+    note.textContent = "Fragments failed to load — veja o console.";
     Object.assign(note.style, {
       position: "fixed",
       left: 8,

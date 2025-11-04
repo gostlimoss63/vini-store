@@ -1,25 +1,32 @@
 // func/productGrid.js
-// Handles all logic specific to the product grid: filtering, sorting, searching, and event listeners.
+// Controla a renderização, filtro, busca e eventos da grade de produtos.
 
-import { products } from './data.js';
-import { renderProducts, showProductModal, addToWishlist } from './renderer.js';
-import { addToCart } from './state.js';
-import { getElement, getElements } from './domUtils.js';
+import { products } from "./data.js";
+import { renderProducts, showProductModal, addToWishlist } from "./renderer.js";
+import { addToCart } from "./state.js";
+import { getElement, getElements } from "./domUtils.js";
+import { filterProducts } from "./filter.js";
 
 export function initProductGrid() {
-  // Tab functionality
+  // Abas (tabs)
   const tabButtons = getElements(".product_grid .tab-btn");
   if (tabButtons.length > 0) {
     tabButtons.forEach((button) => {
       button.addEventListener("click", function () {
         tabButtons.forEach((btn) => btn.classList.remove("active"));
         this.classList.add("active");
-        renderProducts(this.getAttribute("data-tab"));
+
+        const selectedTab = this.getAttribute("data-tab");
+        import("./state.js").then(({ state }) => {
+          state.tab = selectedTab;
+        });
+
+        updateProductGrid();
       });
     });
   }
 
-  // Sort functionality
+  // Ordenação
   const sortSelect = getElement(".product_grid select");
   if (sortSelect) {
     sortSelect.addEventListener("change", function () {
@@ -33,45 +40,37 @@ export function initProductGrid() {
         case "Preço: menor":
           sortedProducts.sort((a, b) => a.price - b.price);
           break;
-        default: // Mais populares
+        default:
           sortedProducts.sort((a, b) => b.reviews - a.reviews);
       }
 
-      const activeTab = getElement(".product_grid .tab-btn.active");
-      const filter = activeTab ? activeTab.getAttribute("data-tab") : "all";
-
-      renderProducts(filter ? sortedProducts.filter(p => p.tab === filter) : sortedProducts);
+      renderProducts(sortedProducts);
     });
   }
 
-  // Initial render
-  renderProducts();
-}
-
-export function initSearchBar() {
-  const searchDesktop = getElement("#search-desktop");
-  if (!searchDesktop) {
-    console.warn("Campo de busca não encontrado!");
-    return;
-  }
-
-  searchDesktop.addEventListener("input", function () {
-    const searchText = this.value.toLowerCase().trim();
-
-    const filtered = products.filter(
-      (p) =>
-        p.name.toLowerCase().includes(searchText) ||
-        p.category.toLowerCase().includes(searchText)
-    );
-    renderProducts(searchText ? filtered : "all");
-  });
+  // Render inicial
+  updateProductGrid();
 }
 
 /*
- * Attaches event listeners to product buttons after they are rendered.
+ * Aplica o filtro global e renderiza os produtos atualizados.
+ */
+export function updateProductGrid() {
+  const productsContainer = document.querySelector(".products-container");
+  if (!productsContainer) return;
+
+  const filtered = filterProducts();
+  renderProducts(filtered, productsContainer);
+
+  // 🔹 Reanexa eventos nos novos botões
+  attachProductEventListeners();
+}
+
+/*
+ * Liga eventos dos botões de produto após renderização.
  */
 export function attachProductEventListeners() {
-  // Quick view buttons
+  // Quick view
   getElements(".quick-view").forEach((button) => {
     button.addEventListener("click", function () {
       const productId = parseInt(this.getAttribute("data-id"));
@@ -79,7 +78,7 @@ export function attachProductEventListeners() {
     });
   });
 
-  // Add to cart buttons
+  // Add to cart
   getElements(".add-to-cart").forEach((button) => {
     button.addEventListener("click", function () {
       const productId = parseInt(this.getAttribute("data-id"));
@@ -87,7 +86,7 @@ export function attachProductEventListeners() {
     });
   });
 
-  // Add to wishlist buttons
+  // Add to wishlist
   getElements(".add-to-wishlist").forEach((button) => {
     button.addEventListener("click", function () {
       const productId = parseInt(this.getAttribute("data-id"));
