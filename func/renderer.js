@@ -77,10 +77,10 @@ export function renderProducts(source = "all", container = null) {
           <span class="rating-count">(${product.reviews})</span>
         </div>
         <div class="product-price">
-          <span class="price-current">$${product.price}</span>
+          <span class="price-current">R$${product.price}</span>
           ${
             product.oldPrice
-              ? `<span class="price-old">$${product.oldPrice}</span>`
+              ? `<span class="price-old">R$${product.oldPrice}</span>`
               : ""
           }
         </div>

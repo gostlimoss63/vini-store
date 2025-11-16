@@ -1,9 +1,8 @@
 // func/config.js
 // Central configuration for the application.
 
-export const BASE = "const/"; // The folder where your HTML fragments are located.
+export const BASE = "./fragments/"; // The folder where your HTML fragments are located.
 export const FRAGS = [
-  "promotion_bar",
   "header",
   "slider",
   "categories",

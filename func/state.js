@@ -40,9 +40,11 @@ export function updateCartCount() {
     (total, item) => total + item.quantity,
     0
   );
-
   const cartCountElement = document.querySelector(".cart-count");
   if (cartCountElement) {
     cartCountElement.textContent = state.cartCount;
+
+    cartCountElement.classList.add("bump");
+    setTimeout(() => cartCountElement.classList.remove("bump"), 300);
   }
 }

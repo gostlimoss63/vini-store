@@ -3,7 +3,7 @@
    ====================== */
 :root {
   --max-width: 1200px;
-  --accent: #059669;
+  --accent: #8c6f26;
   --muted: #6b7280;
   --card-border: #e5e7eb;
   --radius: 10px;
@@ -43,7 +43,6 @@ body {
 /* Simple responsive container helper via structural selector */
 .header header > div,
 .slider > div,
-.promotion_bar > div,
 .product_grid main,
 .categories > div,
 .footer footer {
@@ -54,89 +53,299 @@ body {
 }
 
 /* ======================
-   Promotion bar
-   ====================== */
-.promotion_bar {
-  background: var(--accent);
-  color: #fff;
-  font-size: 0.95rem;
-}
-.promotion_bar > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.promotion_bar > div div:last-child {
-  display: none;
-}
-
-/* ======================
    Header / Navbar
    ====================== */
-.header header > div {
+
+/* ------------------------------ */
+/* TOPBAR */
+/* ------------------------------ */
+.topbar {
+  width: 100%;
+  background: #000;
+  padding: 0px 0;
+  text-align: center;
+}
+
+.topbar p {
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+/* ------------------------------ */
+/* HEADER GERAL */
+/* ------------------------------ */
+.main-header {
+  width: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #eee;
+  position: relative; /* <--- FALTAVA ISSO */
+}
+
+/* Parte interna do header (search + logo + contas) */
+.header-content {
+  position: relative;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 15px 25px;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 40px;
+  z-index: 2;
 }
-.header header > div > a:first-of-type {
+
+/* ------------------------------ */
+/* LEFT SECTION (Busca) */
+/* ------------------------------ */
+.left-section {
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  text-decoration: none;
-  color: inherit;
+  position: relative;
+  right: 120px;
 }
-.header header > div > a:first-of-type div {
-  background: #e5e7eb;
-  width: 40px;
-  height: 40px;
+
+.predictive-search__form {
+  width: 100%;
+  max-width: 260px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  font-weight: 700;
-}
-.header header > div > a:first-of-type span {
-  font-size: 1.125rem;
-  font-weight: 600;
+  gap: 10px;
+  padding: 8px 12px;
 }
 
-.header header nav {
-  display: none;
-  gap: 1.25rem;
-}
-.header header nav a {
-  text-decoration: none;
-  color: inherit;
-}
-.header header nav a:hover {
-  color: var(--accent);
+.predictive-search__input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
 }
 
-.header header > div > div:last-of-type {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+.icon--header-search {
+  color: #555;
 }
 
-.header input[type="search"] {
-  padding: 0.5rem 0.65rem;
-  border-radius: 8px;
-  border: 1px solid var(--card-border);
-  min-width: 160px;
-  font-size: 0.95rem;
+.search-icon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  display: inline-block;
 }
 
-#cart-count {
+.search-icon::before {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+
+  border: 2px solid #666;
+  border-radius: 50%;
+
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background: var(--accent);
-  color: white;
-  font-size: 0.7rem;
-  padding: 0.1rem 0.45rem;
-  border-radius: 999px;
+  top: 0;
+  left: 0;
+}
+
+.search-icon::after {
+  content: "";
+  display: block;
+  width: 2px;
+  height: 8px;
+
+  background: #666;
+  position: absolute;
+  bottom: -3px;
+  right: -2px;
+
+  transform: rotate(135deg);
+  border-radius: 2px;
+}
+
+/* ------------------------------ */
+/* CENTER LOGO */
+/* ------------------------------ */
+.top-center {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.site-logo {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ------------------------------ */
+/* RIGHT SECTION (Conta / Favoritos / Carrinho) */
+/* ------------------------------ */
+.right-section {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 22px;
+  align-items: center;
+  position: relative;
+  left: 165px;
+}
+
+.header-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  font-size: 13px;
+  color: #333;
+}
+
+.header-icon i {
+  font-size: 20px;
+  margin-bottom: 2px;
+}
+
+.header-cart {
+  position: relative;
+  cursor: pointer;
+}
+
+.cart-count {
+  position: absolute;
+  top: -10px;
+  right: -18px;
+  background: #a7977c;
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* NAV MENU */
+.nav-menu {
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  z-index: 10;
+}
+
+.nav-list {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 12px 25px;
+
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-item {
+  cursor: pointer;
+  position: relative;
+  padding: 6px 0;
+
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+  letter-spacing: 0.4px;
+
+  transition: color 0.25s ease;
+}
+
+.nav-item:hover {
+  color: #000;
+}
+
+/* =============================== */
+/* DROPDOWN COM ANIMAÇÃO MODERNA   */
+/* =============================== */
+
+.dropdown-menu {
+  position: absolute;
+  top: 36px;
+  left: 0;
+
+  background: #fff;
+  border-radius: 8px;
+  min-width: 160px;
+  padding: 10px 0;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+  /* <<< ANIMAÇÃO TOP >>> */
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* LINKS DO SUB MENU */
+.dropdown-menu a {
+  padding: 10px 15px;
+  display: block;
+  text-decoration: none;
+
+  font-size: 14px;
+  color: #333;
+
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.dropdown-menu a:hover {
+  background: #f3f3f3;
+  color: #000;
+}
+
+/* ------------------------------ */
+/* RESPONSIVO */
+/* ------------------------------ */
+@media (max-width: 900px) {
+  .header-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .left-section,
+  .right-section {
+    justify-content: center;
+  }
+
+  .nav-menu ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .site-logo {
+    height: 60px;
+  }
+}
+
+@media (max-width: 600px) {
+  .predictive-search__form {
+    max-width: 100%;
+  }
+
+  .header-icon span {
+    display: none;
+  }
+
+  .nav-menu ul {
+    font-size: 14px;
+  }
 }
 
 #btn-mobile {
@@ -279,7 +488,7 @@ body {
   cursor: pointer;
 }
 .slider #dots button[aria-current="true"] {
-  background: #059669;
+  background: #c9ac62;
   box-shadow: 0 2px 6px rgba(5, 150, 105, 0.18);
 }
 
@@ -544,7 +753,7 @@ body {
 }
 
 .add-to-cart {
-  background-color: #4caf50;
+  background-color: #c9ac62;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -556,7 +765,7 @@ body {
 }
 
 .add-to-cart:hover {
-  background-color: #45a049;
+  background-color: #c9ac62;
 }
 
 /* Modal Styles */
@@ -634,13 +843,18 @@ body {
 }
 
 .btn-primary {
-  background-color: #4caf50;
+  background-color: #c9ac62;
   color: white;
 }
 
 .btn-secondary {
   background-color: #f0f0f0;
   color: #333;
+}
+
+.cart-count.bump {
+  transform: scale(1.3);
+  transition: transform 0.3s ease;
 }
 
 /* Toast Notification */

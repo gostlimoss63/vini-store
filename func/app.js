@@ -2,7 +2,11 @@
 // Controla a inicialização geral da aplicação.
 
 import { loadFragments } from "./services.js";
-import {initProductGrid,attachProductEventListeners,updateProductGrid,} from "./productGrid.js";
+import {
+  initProductGrid,
+  attachProductEventListeners,
+  updateProductGrid,
+} from "./productGrid.js";
 import { initMobileMenu, initSlider } from "./components.js";
 import { renderProducts } from "./renderer.js";
 import { updateCartCount, state } from "./state.js";
@@ -96,7 +100,7 @@ async function init() {
       };
 
       console.log("✅ Loja inicializada com sucesso!");
-    }, 150);
+    }, 300);
   } catch (e) {
     console.error("Erro na inicialização:", e);
   }
