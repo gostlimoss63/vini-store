@@ -2,6 +2,9 @@
 import { products } from "./data.js";
 import { state } from "./state.js";
 
+/**
+ * Normalização de categorias para evitar variações de escrita.
+ */
 const CATEGORY_NORMALIZE = {
   casual: "casual",
   polos: "polos",
@@ -9,40 +12,55 @@ const CATEGORY_NORMALIZE = {
   jaquetas: "jaquetas",
   moletons: "moletons",
   calças: "calças",
-  calcas: "calças",
+  calcas: "calças", // fallback sem acento
   bermudas: "bermudas",
   acessorios: "acessorios",
-  accessories: "acessorios",
+  accessories: "acessorios", // fallback inglês
   fashion: "casual",
-  "men's wear": "casual",
   electronics: "electronics",
 };
 
+/**
+ * Normaliza strings de forma segura
+ */
+function normalize(str) {
+  return (str || "").toString().toLowerCase().trim();
+}
+
+/**
+ * Filtra produtos baseado no estado global.
+ */
 export function filterProducts() {
   let filtered = [...products];
 
-  // Categoria
+  // --- Filtro por categoria ---
   if (state.category && state.category !== "all") {
-    const catKey = (state.category || "").toString().toLowerCase().trim();
-    const normalized = CATEGORY_NORMALIZE[catKey] || catKey;
+    const catKey = normalize(state.category);
+    const normalizedCategory = CATEGORY_NORMALIZE[catKey] || catKey;
+
     filtered = filtered.filter(
-      (p) => (p.category || "").toString().toLowerCase().trim() === normalized
+      (p) => normalize(p.category) === normalizedCategory
     );
   }
 
-  // Tab
-  if (state.tab && state.tab !== "all") {
-    const t = state.tab.toLowerCase();
-    filtered = filtered.filter((p) => (p.tab || "").toLowerCase() === t);
+  // FAVORITOS
+  if (state.isFavoritesOnly) {
+    filtered = filtered.filter((p) => state.wishlist.includes(p.id));
   }
 
-  // Search
+  // --- Filtro por tab ---
+  if (state.tab && state.tab !== "all") {
+    const tabKey = normalize(state.tab);
+    filtered = filtered.filter((p) => normalize(p.tab) === tabKey);
+  }
+
+  // --- Filtro por busca ---
   if (state.search && state.search.trim() !== "") {
-    const s = state.search.toLowerCase();
+    const term = normalize(state.search);
+
     filtered = filtered.filter(
       (p) =>
-        (p.name || "").toLowerCase().includes(s) ||
-        (p.category || "").toLowerCase().includes(s)
+        normalize(p.name).includes(term) || normalize(p.category).includes(term)
     );
   }
 
