@@ -73,6 +73,7 @@ export function renderProducts(source = "all", container = null) {
     const productCard = document.createElement("article");
     productCard.className = "product-card";
 
+    // ...existing code...
     productCard.innerHTML = `
       <div class="product-image">
         <img src="${product.image}" alt="${product.name}">
@@ -112,12 +113,57 @@ export function renderProducts(source = "all", container = null) {
         </div>
 
         <button class="add-to-cart" data-id="${product.id}">
-          Add to Cart
+          Adicionar ao Carrinho
         </button>
       </div>
     `;
 
+    // redireciona para a página de detalhe em "Projeto faculdade"
+    // ...existing code...
+    // redireciona para a página de detalhe em "Projeto faculdade"
+    // ...existing code...
+    // redireciona para a página de detalhe em "Projeto faculdade"
+    // redireciona para a página de detalhe em "Projeto faculdade"
+    // ...existing code...
+    // redireciona para a página de detalhe em "Projeto faculdade"
+    productCard.addEventListener("click", (e) => {
+      // não redirecionar se o clique for em botões/links (quick-view, wishlist, add-to-cart, etc.)
+      if (
+        e.target.closest(".action-btn") ||
+        e.target.closest("button") ||
+        e.target.closest("a")
+      ) {
+        return;
+      }
+
+      const slug =
+        product.slug ||
+        String(product.name)
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, "-")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "") // remove acentos
+          .replace(/[^\w-]/g, "");
+
+      // extrai base do nome do arquivo da imagem (sem extensão)
+      const imgPath = product.image || "";
+      const imgFile = imgPath.split("/").pop() || "";
+      const imgBase = imgFile.replace(/\.[a-zA-Z0-9]+$/, "");
+
+      // passa id, slug, nome e categoria para a página de detalhe
+      const url = `../Projeto faculdade/index.html?id=${
+        product.id
+      }&product=${encodeURIComponent(slug)}&name=${encodeURIComponent(
+        product.name
+      )}&category=${encodeURIComponent(product.category || "")}`;
+
+      window.location.href = url;
+    });
+    // ...existing code...
+
     productGrid.appendChild(productCard);
+    // ...existing code...
   });
 }
 // ...existing code...
@@ -152,7 +198,7 @@ export function showProductModal(productId) {
 
             <div class="modal-actions">
               <button id="add-to-cart-modal" class="btn-primary">
-                Add to Cart
+                Adicionar ao Carrinho
               </button>
 
               <button id="add-to-wishlist-modal" class="btn-secondary">
@@ -161,7 +207,7 @@ export function showProductModal(productId) {
               </button>
 
               <button id="remove-to-cart" class="btn-remove">
-                Remove to Cart
+                Remover do Carrinho
               </button>
             </div>
           </div>

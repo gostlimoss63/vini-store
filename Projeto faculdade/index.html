@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Loja VINTCY — Camisa Social (Ultra Integrado)</title>
+
+    <!-- =========================
+       1) FONTES EXTERNAS
+     ========================== -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- =========================
+       2) ESTILOS (CSS)
+       - Parte base do layout
+       - Parte que você mais vai mexer
+     ========================== -->
+    <link rel="stylesheet" href="CSS/style.css" />
+  </head>
+  <body>
+
+    <!-- Botão Voltar -->
+  <button id="btn-voltar" style="
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    padding: 8px 16px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  ">
+    ← Voltar
+  </button>
+
+    <!-- ======================================================
+       3) CABEÇALHO
+       - Aqui você pode mudar a logo e texto da busca
+     ======================================================= -->
+    <header class="top-header" role="banner">
+      <div class="top-bar" role="region" aria-label="top bar">
+        
+
+        <!-- logotipo centralizado (troque o src pelo caminho da sua imagem) -->
+        <div class="top-center" aria-hidden="true">
+          <img
+            loading="lazy"
+            src="img\vintcy-logo.png"
+            alt="VINTCY"
+            class="site-logo"
+          />
+          <span class="visually-hidden">VINTCY — Loja</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ======================================================
+       4) CONTEÚDO PRINCIPAL
+       - 4.1 Galeria
+       - 4.2 Painel do Produto
+       - 4.3 Blocos de Informações
+     ======================================================= -->
+    <main>
+      <!-- 4.1 GALERIA DE IMAGENS -->
+      <section class="gallery" aria-label="Galeria de imagens do produto">
+        <!-- radios que controlam qual imagem está ativa -->
+        <input type="radio" name="gallery" id="g1" checked />
+        <input type="radio" name="gallery" id="g2" />
+        <input type="radio" name="gallery" id="g3" />
+        <input type="radio" name="gallery" id="g4" />
+
+        <div class="gallery-images" aria-hidden="false">
+          <!-- setas navegação -->
+          <button
+            type="button"
+            class="nav-arrow nav-prev"
+            id="arrowPrev"
+            aria-label="Imagem anterior"
+            title="Imagem anterior"
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M15 18L9 12l6-6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            class="nav-arrow nav-next"
+            id="arrowNext"
+            aria-label="Próxima imagem"
+            title="Próxima imagem"
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M9 6l6 6-6 6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+
+          <!-- imagens principais -->
+          <picture>
+            <source
+              type="image/webp"
+              srcset="
+                https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1600 1600w
+              "
+            />
+            <img
+              loading="lazy"
+              data-id="g1"
+              src="img/vintcy-logo.png"
+              alt="VINTCY"
+              class="site-logo"
+            />
+          </picture>
+          <picture>
+            <img
+              loading="lazy"
+              width="1200"
+              height="800"
+              data-id="g2"
+              src="https://images.unsplash.com/photo-1520975912429-9d5afa6f9b8f?q=80&w=1200"
+              alt="Detalhe tecido"
+            />
+          </picture>
+          <picture>
+            <img
+              loading="lazy"
+              width="1200"
+              height="800"
+              data-id="g3"
+              src="https://images.unsplash.com/photo-1532372322515-9d6d7d3f3f4b?q=80&w=1200"
+              alt="Modelo usando"
+            />
+          </picture>
+          <picture>
+            <img
+              loading="lazy"
+              width="1200"
+              height="800"
+              data-id="g4"
+              src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1200"
+              alt="Cores"
+            />
+          </picture>
+        </div>
+
+        <!-- miniaturas -->
+
+        <!-- bolinhas de navegação -->
+        <div
+          class="dots"
+          aria-hidden="false"
+          role="tablist"
+          aria-label="Navegação de imagens"
+        >
+          <label for="g1" role="tab" title="Imagem 1"
+            ><span class="dot" aria-hidden="true"></span
+          ></label>
+          <label for="g2" role="tab" title="Imagem 2"
+            ><span class="dot" aria-hidden="true"></span
+          ></label>
+          <label for="g3" role="tab" title="Imagem 3"
+            ><span class="dot" aria-hidden="true"></span
+          ></label>
+          <label for="g4" role="tab" title="Imagem 4"
+            ><span class="dot" aria-hidden="true"></span
+          ></label>
+        </div>
+
+        <!-- TABELA DE MEDIDAS -->
+        <div class="size-chart" aria-hidden="false">
+          <h3 class="size-chart-title">Tabela de medidas (cm)</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>T</th>
+                <th>Tórax</th>
+                <th>Cintura</th>
+                <th>Quadril</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>P</td>
+                <td>84-92</td>
+                <td>70-78</td>
+                <td>90-96</td>
+              </tr>
+              <tr>
+                <td>M</td>
+                <td>92-102</td>
+                <td>78-86</td>
+                <td>96-104</td>
+              </tr>
+              <tr>
+                <td>G</td>
+                <td>102-110</td>
+                <td>86-96</td>
+                <td>104-112</td>
+              </tr>
+              <tr>
+                <td>GG</td>
+                <td>110-116</td>
+                <td>96-102</td>
+                <td>112-118</td>
+              </tr>
+              <tr>
+                <td>XG</td>
+                <td>116-120</td>
+                <td>102-106</td>
+                <td>118-122</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4.2 PAINEL DO PRODUTO -->
+      <aside class="product" aria-labelledby="product-title">
+        <!-- Título + subtítulo (você vai alterar bastante aqui) -->
+        <h1 class="product-title">Carregando...</h1>
+        <div class="byline">Linha premium · Acabamento Italiano</div>
+
+        <!-- preços e selos -->
+        <div class="price-area">
+          <div class="price">R$ 249,90</div>
+          <div class="price-old">R$ 349,90</div>
+          <div class="price-badges">
+            <span class="badge-trust">Frete Grátis</span>
+            <span class="badge-trust">Troca 30 dias</span>
+          </div>
+        </div>
+
+        <!-- seleção de cor -->
+        <div style="margin-top: 8px">
+          <label class="option-label">Cor</label>
+          <div
+            class="color-swatches"
+            role="radiogroup"
+            aria-label="Selecionar cor"
+          >
+            <label
+              class="swatch"
+              style="background: #2b2b2b"
+              data-value="preto"
+              data-image="g1"
+              tabindex="0"
+            >
+              <input
+                class="input-hidden"
+                type="radio"
+                name="color"
+                value="preto"
+                aria-label="Preto"
+              />
+            </label>
+
+            <label
+              class="swatch"
+              style="background: #ffffff; border: 1px solid rgba(0, 0, 0, 0.08)"
+              data-value="branco"
+              data-image="g2"
+              tabindex="0"
+            >
+              <input
+                class="input-hidden"
+                type="radio"
+                name="color"
+                value="branco"
+                aria-label="Branco"
+              />
+            </label>
+
+            <label
+              class="swatch"
+              style="background: #8a6b4a"
+              data-value="marrom"
+              data-image="g3"
+              tabindex="0"
+            >
+              <input
+                class="input-hidden"
+                type="radio"
+                name="color"
+                value="marrom"
+                aria-label="Marrom"
+              />
+            </label>
+
+            <label
+              class="swatch"
+              style="background: #2e5a97"
+              data-value="azul"
+              data-image="g4"
+              tabindex="0"
+            >
+              <input
+                class="input-hidden"
+                type="radio"
+                name="color"
+                value="azul"
+                aria-label="Azul"
+              />
+            </label>
+
+            <label class="swatch--outline" data-value="outras" tabindex="0">
+              <input
+                class="input-hidden"
+                type="radio"
+                name="color"
+                value="outras"
+                aria-label="Outras cores"
+              />
+              +
+            </label>
+          </div>
+        </div>
+
+        <!-- seleção de tamanho -->
+        <div style="margin-top: 12px">
+          <label class="option-label">Tamanho</label>
+          <div class="size-pills" role="group" aria-label="Selecionar tamanho">
+            <button
+              type="button"
+              class="size-btn"
+              data-value="P"
+              aria-pressed="true"
+            >
+              P
+            </button>
+            <button
+              type="button"
+              class="size-btn"
+              data-value="M"
+              aria-pressed="false"
+            >
+              M
+            </button>
+            <button
+              type="button"
+              class="size-btn"
+              data-value="G"
+              aria-pressed="false"
+            >
+              G
+            </button>
+            <button
+              type="button"
+              class="size-btn"
+              data-value="GG"
+              aria-pressed="false"
+            >
+              GG
+            </button>
+            <button
+              type="button"
+              class="size-btn"
+              data-value="XG"
+              aria-pressed="false"
+            >
+              XG
+            </button>
+          </div>
+        </div>
+
+        <!-- quantidade + botão comprar -->
+        <div
+          style="
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 14px;
+          "
+        >
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              background: #fff;
+              padding: 6px;
+              border-radius: 8px;
+            "
+          >
+            <button class="qty-btn" id="qtyMinus" aria-label="Diminuir">
+              −
+            </button>
+            <div
+              id="qtyValue"
+              style="width: 36px; text-align: center; font-weight: 700"
+            >
+              1
+            </div>
+            <button class="qty-btn" id="qtyPlus" aria-label="Aumentar">
+              +
+            </button>
+          </div>
+          <button
+            class="buy-pill"
+            style="padding: 12px 16px; border-radius: 10px"
+          >
+            COMPRAR
+          </button>
+        </div>
+
+        <p style="margin-top: 12px; color: var(--muted)">
+          Parcelamento em até 3x sem juros • Entrega em 2–7 dias
+        </p>
+
+        <hr class="section-separator" />
+
+       
+          <div class="more-products" id="moreProducts" aria-hidden="true">
+            <div class="card card--small">
+              <img
+                loading="lazy"
+                width="600"
+                height="400"
+                src="https://images.unsplash.com/photo-1520975912429-9d5afa6f9b8f?q=80&w=600"
+                alt=""
+              />
+              <div class="title">Camisa Marinho</div>
+              <div class="price">R$ 189,90</div>
+            </div>
+            <div class="card card--small">
+              <img
+                loading="lazy"
+                width="600"
+                height="400"
+                src="https://images.unsplash.com/photo-1532372322515-9d6d7d3f3f4b?q=80&w=600"
+                alt=""
+              />
+              <div class="title">Camisa Cinza</div>
+              <div class="price">R$ 219,90</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 4.3 INFORMAÇÕES DO PRODUTO / ESPECIFICAÇÕES -->
+      <div class="info-row" role="region" aria-label="Informações do produto">
+        <div class="info-card" aria-labelledby="info-title-1">
+          <h4 id="info-title-1">Informações do Produto</h4>
+          <!-- células editáveis para você preencher depois -->
+          <table class="info-table" aria-hidden="false">
+            <tr>
+              <td>Sobre o Produto</td>
+              <td class="blank" contenteditable="true"></td>
+            </tr>
+            <tr>
+              <td>Acabamento</td>
+              <td class="blank" contenteditable="true"></td>
+            </tr>
+            <tr>
+              <td>Origem</td>
+              <td class="blank" contenteditable="true"></td>
+            </tr>
+            <tr>
+              <td>Prazo de Entrega</td>
+              <td class="blank" contenteditable="true"></td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="info-card" aria-labelledby="info-title-2">
+          <h4 id="info-title-2">Principais Características</h4>
+          <table class="info-table">
+            <tr>
+              <td>Material</td>
+              <td class="blank" contenteditable="true"></td>
+            </tr>
+            <tr>
+              <td>Composição</td>
+              <td class="blank" contenteditable="true"></td>
+            </tr>
+            <tr>
+              <td>Modelagem</td>
+              <td class="blank" contenteditable="true"></td>
+            </tr>
+            <tr>
+              <td>Gola</td>
+              <td class="blank" contenteditable="true"></td>
+            </tr>
+            <tr>
+              <td>Cuidados</td>
+              <td class="blank" contenteditable="true"></td>
+            </tr>
+            <tr>
+              <td>Garantia</td>
+              <td class="blank" contenteditable="true"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- ======================================================
+       5) RODAPÉ
+     ======================================================= -->
+    <footer
+      style="
+        max-width: 1200px;
+        margin: 28px auto;
+        padding: 18px;
+        text-align: center;
+        color: var(--muted);
+      "
+    >
+      © 2025 VINTCY – Todos os direitos reservados
+    </footer>
+
+    <!-- ======================================================
+       6) SCRIPTS (JS)
+       - Aqui ficam as interações
+       - Cada bloco está comentado
+     ======================================================= -->
+     <script src="JS/navigation.js"></script>
+     <script type="module" src="JS/loadProduct.js"></script>
+     <script src="JS/script.js"></script>
+  </body>
+</html>
