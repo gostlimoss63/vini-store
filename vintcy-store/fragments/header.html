@@ -1,0 +1,106 @@
+<header class="main-header">
+  <!-- TOPBAR -->
+  <section class="topbar">
+    <p>FRETE GRÁTIS PARA TODO O BRASIL</p>
+  </section>
+
+  <!-- PARTE SUPERIOR DO HEADER -->
+  <div class="header-content">
+    <div class="left-section">
+      <form class="predictive-search__form" id="searchForm">
+        <i class="search-icon"></i>
+        <input
+          class="predictive-search__input"
+          id="search-desktop"
+          type="text"
+          placeholder="O que você está buscando?"
+          autocomplete="off"
+        />
+      </form>
+    </div>
+
+    <div class="top-center">
+      <img src="assets/img/logo1.jpg" alt="VINTCY" class="site-logo" />
+    </div>
+
+    <div class="right-section">
+      <div class="header-icon" id="account-btn">
+        <span>Conta</span>
+      </div>
+
+      <div class="header-icon" id="favorite-btn">
+        <span>Favoritos</span>
+      </div>
+
+      <div class="header-icon cart-wrapper">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="cart-count">0</span>
+      </div>
+
+      <div class="header-icon">
+        <button class="clear-cart">
+          <span class="clear-cart-no-icon">Cancelar Carrinho</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <nav class="nav-menu">
+    <ul class="nav-list">
+      <li class="nav-item" data-category="all">Início</li>
+
+      <li class="nav-item dropdown">
+        Calçados ▾
+        <div class="dropdown-menu">
+          <a href="#" data-category="botas">Botas</a>
+          <a href="#" data-category="tenis">Tênis</a>
+          <a href="#" data-category="sapatos">Sapatos</a>
+          <a href="#" data-category="mocassins">Mocassins</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        Vestuário ▾
+        <div class="dropdown-menu">
+          <a href="#" data-category="casual">Camisetas</a>
+          <a href="#" data-category="social">Camisas</a>
+          <a href="#" data-category="calças">Calças</a>
+        </div>
+      </li>
+
+      <li class="nav-item" data-category="acessorios">Acessórios</li>
+      <li class="nav-item" data-category="mochilas">Mochilas</li>
+      <li class="nav-item" id="contact-btn">Contato</li>
+      <li class="nav-item" id="track-order">Rastrear Pedido</li>
+    </ul>
+  </nav>
+</header>
+
+<div id="account-modal" class="account-modal hidden">
+  <div class="account-content">
+    <span class="close-account">&times;</span>
+
+    <h2>Minha Conta</h2>
+
+    <form id="login-form">
+      <h3>Entrar</h3>
+      <input type="text" id="login-email" placeholder="Email" required />
+      <input type="password" id="login-password" placeholder="Senha" required />
+      <button id="login-btn" type="submit">Entrar</button>
+    </form>
+
+    <hr />
+
+    <form id="register-form">
+      <h3>Criar Conta</h3>
+      <input type="text" id="register-name" placeholder="Nome" required />
+      <input type="text" id="register-email" placeholder="Email" required />
+      <input
+        type="password"
+        id="register-password"
+        placeholder="Senha"
+        required
+      />
+      <button id="register-btn" type="submit">Cadastrar</button>
+    </form>
+  </div>
+</div>

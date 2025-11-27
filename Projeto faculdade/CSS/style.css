@@ -476,25 +476,55 @@ main {
   box-shadow: 0 14px 36px rgba(191, 160, 96, 0.06);
 }
 
+/* Container da seção de tamanhos */
+.size-section {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Label */
+.size-section .option-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Pills (botões de tamanho) */
 .size-pills {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 8px;
+  margin-top: 10px;
 }
+
 .size-btn {
-  padding: 8px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
   background: #fff;
   cursor: pointer;
-  font-weight: 700;
-  transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+  transition: all 0.2s ease;
 }
+
+/* quando o botão está selecionado pelo aria-pressed */
 .size-btn[aria-pressed="true"] {
-  background: var(--gold-strong);
+  background: #000;
   color: #fff;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+  border-color: #000;
+}
+
+/* hover quando NÃO está ativo */
+.size-btn[aria-pressed="false"]:hover {
+  background: #f0f0f0;
+}
+
+/* Responsivo */
+@media (max-width: 420px) {
+  .size-btn {
+    padding: 7px 12px;
+    font-size: 13px;
+  }
 }
 
 .buy-pill {
@@ -610,7 +640,6 @@ main {
   }
 }
 
-/* radios da galeria escondidos */
 .gallery input[type="radio"] {
   position: absolute;
   opacity: 0;
@@ -619,7 +648,6 @@ main {
   pointer-events: none;
 }
 
-/* foco acessível */
 button:focus,
 .thumbs label:focus,
 .swatch:focus {
@@ -627,7 +655,6 @@ button:focus,
   outline-offset: 4px;
 }
 
-/* alvos maiores em tela de toque */
 @media (pointer: coarse) {
   .thumbs img {
     width: 96px;
@@ -635,8 +662,5 @@ button:focus,
   }
   .swatch {
     --size: 44px;
-  }
-  .size-btn {
-    padding: 10px 14px;
   }
 }

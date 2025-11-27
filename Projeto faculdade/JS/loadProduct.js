@@ -41,18 +41,10 @@ console.log("loadProduct.js carregado");
   };
 
   function tryLoadImage(src) {
-    console.log("Tentando carregar imagem:", src);
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.crossOrigin = "anonymous";
-      img.onload = () => {
-        console.log("OK:", src);
-        resolve(src);
-      };
-      img.onerror = (e) => {
-        console.warn("ERRO ao carregar:", src, e);
-        reject(src);
-      };
+      img.onload = () => resolve(src);
+      img.onerror = () => reject(src);
       img.src = src;
     });
   }
@@ -62,25 +54,21 @@ console.log("loadProduct.js carregado");
       try {
         await tryLoadImage(c);
         return c;
-      } catch (_) {
-        // continua tentando próximo
-      }
+      } catch (_) {}
     }
     return null;
   }
 
   function insertMainImage(src) {
-    console.log("Inserindo imagem principal:", src);
     const gallery = document.querySelector(".gallery .gallery-images");
-    if (!gallery) {
-      console.warn("Container .gallery .gallery-images não encontrado");
-      return;
-    }
+    if (!gallery) return;
+
     let picture = gallery.querySelector("picture");
     if (!picture) {
       picture = document.createElement("picture");
       gallery.prepend(picture);
     }
+
     picture.innerHTML = `<img id="product-main-image" src="${src}" alt="" loading="eager">`;
   }
 
@@ -90,17 +78,14 @@ console.log("loadProduct.js carregado");
     btn.className = "color-swatch";
     btn.dataset.color = colorName;
     btn.dataset.imageSrc = imageSrc;
-    btn.title = colorName || "";
+    btn.title = colorName;
     btn.style.width = "44px";
     btn.style.height = "44px";
     btn.style.borderRadius = "6px";
     btn.style.border = "2px solid #ddd";
     btn.style.backgroundColor = hexColor;
-    btn.style.cursor = "pointer";
-    btn.style.transition = "all 0.2s ease";
 
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
+    btn.addEventListener("click", () => {
       const main = document.getElementById("product-main-image");
       if (main) main.src = imageSrc;
 
@@ -116,42 +101,82 @@ console.log("loadProduct.js carregado");
     return btn;
   }
 
+  // ---------------------------------------------------------
+  // ⭐ NOVA FUNÇÃO: Renderizar tamanhos dinâmicos na página
+  // ---------------------------------------------------------
+
+  function renderProductSizes(product) {
+    const sizeSection = document.querySelector(".size-section");
+    const sizeContainer = document.querySelector(".size-pills");
+    const sizeLabel = document.querySelector(".option-label");
+
+    if (!sizeSection || !sizeContainer || !sizeLabel) {
+      console.warn("Bloco de tamanhos não encontrado no HTML.");
+      return;
+    }
+
+    sizeContainer.innerHTML = "";
+    sizeSection.style.display = "block";
+    sizeLabel.style.display = "block";
+    sizeContainer.style.display = "flex";
+
+    let sizes = [];
+
+    if (product.category === "Calçados") {
+      sizes = ["38", "39", "40", "41", "42", "43", "44"];
+    } else if (product.category === "Acessórios") {
+      sizeSection.style.display = "none";
+      return;
+    } else {
+      sizes = ["P", "M", "G", "GG", "XG"];
+    }
+
+    sizes.forEach((size, index) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "size-btn";
+      btn.dataset.value = size;
+      btn.textContent = size;
+      btn.setAttribute("aria-pressed", index === 0 ? "true" : "false");
+      sizeContainer.appendChild(btn);
+    });
+  }
+
+  // ---------------------------------------------------------
+  // Load principal
+  // ---------------------------------------------------------
+
   async function load() {
-    // Atualiza nome do produto
     if (productName) {
       const titleElement =
         document.querySelector("h1.product-title") ||
         document.querySelector(".product h1") ||
         document.querySelector("h1");
+
       if (titleElement) {
         titleElement.textContent = decodeURIComponent(productName);
       }
     }
 
-    // Busca produto
     let product = null;
-    if (productId) {
-      product = getProductById(parseInt(productId));
-    } else if (productParam) {
-      product = getProductBySlug(productParam);
-    }
+    if (productId) product = getProductById(parseInt(productId));
+    else if (productParam) product = getProductBySlug(productParam);
 
     console.log("Produto encontrado:", product);
+    if (!product) return;
 
-    if (!product) {
-      console.warn("Produto não encontrado no data.js");
-      return;
-    }
+    // ⭐ Chamamos AQUI para definir tamanhos dinamicamente
+    renderProductSizes(product);
 
-    // Carrega imagem principal
-    const mainFound = await findFirstExisting([product.image]);
-    if (mainFound) {
-      insertMainImage(mainFound);
-    } else {
-      console.warn("Nenhuma imagem principal encontrada para:", product.image);
-    }
+    // carregar imagem principal
+    const mainFound = await findFirstExisting([product.image]).catch(
+      () => null
+    );
 
-    // Prepara container de cores
+    if (mainFound) insertMainImage(mainFound);
+    else insertMainImage(product.image);
+
+    // --- CORES ---
     let colorContainer = document.querySelector(".product .color-swatches");
     if (!colorContainer) {
       const productAside = document.querySelector(".product");
@@ -162,6 +187,7 @@ console.log("loadProduct.js carregado");
         colorContainer.style.display = "flex";
         colorContainer.style.flexWrap = "wrap";
         colorContainer.style.gap = "8px";
+
         productAside.insertBefore(
           colorContainer,
           productAside.querySelector("hr") || null
@@ -171,18 +197,12 @@ console.log("loadProduct.js carregado");
 
     if (colorContainer) {
       colorContainer.innerHTML = "";
-
-      // Adiciona swatches
       for (const color of product.colors) {
-        const found = await findFirstExisting([color.image]);
-        if (found) {
-          const hexColor = colorMap[color.name] || "#cccccc";
-          const swatch = createSwatch(found, color.name, hexColor);
-          colorContainer.appendChild(swatch);
-          console.log("Swatch adicionado:", color.name);
-        } else {
-          console.warn("Imagem de cor não encontrada:", color.image);
-        }
+        const found = await findFirstExisting([color.image]).catch(() => null);
+        const imagePath = found || color.image;
+        const hexColor = colorMap[color.name] || "#cccccc";
+        const swatch = createSwatch(imagePath, color.name, hexColor);
+        colorContainer.appendChild(swatch);
       }
     }
   }

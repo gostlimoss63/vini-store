@@ -1,5 +1,3 @@
-// ...existing code...
-
 // Adicione ao final do arquivo, fora da IIFE anterior:
 document.addEventListener("DOMContentLoaded", () => {
   const btnVoltar = document.getElementById("btn-voltar");
