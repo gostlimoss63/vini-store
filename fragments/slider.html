@@ -1,30 +1,53 @@
 <section class="slider">
   <div class="slides-wrapper" aria-roledescription="carousel">
+    <!-- Slides -->
     <div id="slides" aria-live="polite">
-      <div role="group" aria-roledescription="slide" aria-label="1 of 2">
-        <div>
-          <h2>Coleção Verão</h2>
-          <p>Looks leves e elegantes para a estação.</p>
-          <a href="#">Ver coleção</a>
+      <!-- Slide 1 -->
+      <div
+        class="slide"
+        role="group"
+        aria-roledescription="slide"
+        aria-label="1 de 2"
+      >
+        <div class="slide-content">
+          <h2 class="slide-title">Coleção Verão</h2>
+          <p class="slide-text">Looks leves e elegantes para a estação.</p>
+          <a class="slide-btn" href="#">Ver coleção</a>
         </div>
-        <div aria-hidden="true"></div>
+
+        <img
+          class="slide-img"
+          src="/vintcy-store/assets/img/colecao_verao.jpg"
+          alt="Slider da coleção verão"
+        />
       </div>
 
-      <div role="group" aria-roledescription="slide" aria-label="2 of 2">
-        <div>
-          <h2>Promoções</h2>
-          <p>Descontos em peças selecionadas.</p>
-          <a href="#">Comprar agora</a>
+      <!-- Slide 2 -->
+      <div
+        class="slide"
+        role="group"
+        aria-roledescription="slide"
+        aria-label="2 de 2"
+      >
+        <div class="slide-content">
+          <h2 class="slide-title">Promoções</h2>
+          <p class="slide-text">Descontos em peças selecionadas.</p>
+          <a class="slide-btn" href="#">Comprar agora</a>
         </div>
-        <div aria-hidden="true"></div>
+
+        <div class="slide-placeholder" aria-hidden="true"></div>
       </div>
     </div>
 
-    <!-- controls (IDs are used by JS) -->
-    <button id="prev" aria-label="Slide anterior" type="button">‹</button>
-    <button id="next" aria-label="Próximo slide" type="button">›</button>
+    <!-- Navigation -->
+    <button id="prev" aria-label="Slide anterior" type="button" class="nav-btn">
+      ‹
+    </button>
+    <button id="next" aria-label="Próximo slide" type="button" class="nav-btn">
+      ›
+    </button>
 
-    <!-- dots container (JS will populate) -->
+    <!-- Dots -->
     <div id="dots" role="tablist" aria-label="Navegação de slides"></div>
   </div>
 </section>

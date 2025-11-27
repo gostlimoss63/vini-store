@@ -36,7 +36,6 @@ export function generateStars(rating) {
 /**
  * Renderiza a lista de produtos no container indicado
  */
-// ...existing code...
 export function renderProducts(source = "all", container = null) {
   const productGrid =
     container || document.querySelector(".product_grid .products-container");
@@ -48,7 +47,7 @@ export function renderProducts(source = "all", container = null) {
 
   productGrid.innerHTML = "";
 
-  // Build initial list based on `source`
+  // Constrói a lista inicial com base em `source`
   let list;
   if (Array.isArray(source)) {
     list = source;
@@ -59,7 +58,7 @@ export function renderProducts(source = "all", container = null) {
     list = products.filter((p) => p.tab === source);
   }
 
-  // Apply favorites-only filter if active in global state
+  // Aplica filtros somente se estiver no modo favoritos
   if (state.isFavoritesOnly) {
     list = list.filter((p) => state.wishlist.includes(p.id));
   }
@@ -73,7 +72,6 @@ export function renderProducts(source = "all", container = null) {
     const productCard = document.createElement("article");
     productCard.className = "product-card";
 
-    // ...existing code...
     productCard.innerHTML = `
       <div class="product-image">
         <img src="${product.image}" alt="${product.name}">
@@ -83,11 +81,15 @@ export function renderProducts(source = "all", container = null) {
             : ""
         }
         <div class="product-actions">
-          <button class="action-btn quick-view" data-id="${product.id}">
+          <button class="action-btn quick-view" data-id="${
+            product.id
+          }" title="Visualizar">
             <i class="fas fa-eye"></i>
           </button>
 
-          <button class="action-btn add-to-wishlist" data-id="${product.id}">
+          <button class="action-btn add-to-wishlist" data-id="${
+            product.id
+          }" title="Favoritar">
             <i class="${isFavorite(product.id) ? "fas" : "far"} fa-heart"></i>
           </button>
         </div>
@@ -118,14 +120,7 @@ export function renderProducts(source = "all", container = null) {
       </div>
     `;
 
-    // redireciona para a página de detalhe em "Projeto faculdade"
-    // ...existing code...
-    // redireciona para a página de detalhe em "Projeto faculdade"
-    // ...existing code...
-    // redireciona para a página de detalhe em "Projeto faculdade"
-    // redireciona para a página de detalhe em "Projeto faculdade"
-    // ...existing code...
-    // redireciona para a página de detalhe em "Projeto faculdade"
+    // Clique no card (abre a página de detalhe)
     productCard.addEventListener("click", (e) => {
       // não redirecionar se o clique for em botões/links (quick-view, wishlist, add-to-cart, etc.)
       if (
@@ -146,11 +141,6 @@ export function renderProducts(source = "all", container = null) {
           .replace(/[\u0300-\u036f]/g, "") // remove acentos
           .replace(/[^\w-]/g, "");
 
-      // extrai base do nome do arquivo da imagem (sem extensão)
-      const imgPath = product.image || "";
-      const imgFile = imgPath.split("/").pop() || "";
-      const imgBase = imgFile.replace(/\.[a-zA-Z0-9]+$/, "");
-
       // passa id, slug, nome e categoria para a página de detalhe
       const url = `../Projeto faculdade/index.html?id=${
         product.id
@@ -160,13 +150,10 @@ export function renderProducts(source = "all", container = null) {
 
       window.location.href = url;
     });
-    // ...existing code...
 
     productGrid.appendChild(productCard);
-    // ...existing code...
   });
 }
-// ...existing code...
 
 /**
  * Mostra o modal de detalhes do produto
@@ -183,9 +170,11 @@ export function showProductModal(productId) {
     modal.id = "product-modal";
     modal.className = "modal";
 
+    // NOTE: incluí aqui um bloco .size-section para garantir que o modal
+    // sempre terá o container de tamanhos esperado pela lógica.
     modal.innerHTML = `
       <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close" title="Fechar">&times;</span>
 
         <div class="modal-product">
           <div class="modal-image">
@@ -196,7 +185,13 @@ export function showProductModal(productId) {
             <h2 id="modal-product-name"></h2>
             <div id="modal-product-price" class="modal-price"></div>
 
-            <div class="modal-actions">
+            <!-- seção de tamanhos garantida -->
+            <div class="size-section" style="margin-top:12px;">
+              <label class="option-label">Tamanho</label>
+              <div class="size-pills" role="group" aria-label="Selecionar tamanho"></div>
+            </div>
+
+            <div class="modal-actions" style="margin-top:16px;">
               <button id="add-to-cart-modal" class="btn-primary">
                 Adicionar ao Carrinho
               </button>
@@ -233,45 +228,121 @@ export function showProductModal(productId) {
   ).textContent = `R$${product.price}`;
   document.getElementById("modal-product-image").src = product.image;
 
-  // Adicionar ao carrinho
-  document.getElementById("add-to-cart-modal").onclick = () =>
-    addToCart(product.id);
-
-  // Remover do carrinho
-  document.getElementById("remove-to-cart").onclick = () =>
-    removeFromCart(product.id);
-
-  document.getElementById("track-order")?.addEventListener("click", () => {
-    showToast("Pedido rastreado com sucesso!");
-  });
-
-  document.getElementById("favorite-btn")?.addEventListener("click", () => {
-    const isFavorite = products.filter((p) => wishlist.includes(p.id));
-
-    renderProducts();
-
-    // reaplica eventos para quick view, add-to-cart etc.
-    attachProductEventListeners();
-  });
-
-  // Wishlist
+  // Atualizar wishlist icon
   const wishlistIcon = document.getElementById("wishlist-icon-modal");
-  wishlistIcon.className = isFavorite(product.id)
-    ? "fas fa-heart"
-    : "far fa-heart";
-
-  document.getElementById("add-to-wishlist-modal").onclick = () => {
-    toggleWishlist(product.id);
+  if (wishlistIcon) {
     wishlistIcon.className = isFavorite(product.id)
       ? "fas fa-heart"
       : "far fa-heart";
-    renderProducts("all");
-    import("./productGrid.js").then(({ attachProductEventListeners }) => {
-      attachProductEventListeners();
-    });
-  };
+  }
 
   modal.classList.add("active");
+
+  // ------- LÓGICA DE TAMANHOS -------
+  const sizeSection = modal.querySelector(".size-section");
+  const sizeContainer = modal.querySelector(".size-pills");
+  const sizeLabel = modal.querySelector(".option-label");
+
+  // Variável local para armazenar o tamanho selecionado
+  let selectedSize = null;
+
+  if (sizeSection && sizeContainer && sizeLabel) {
+    // Reset
+    sizeContainer.innerHTML = "";
+    sizeContainer.style.display = "flex";
+    sizeLabel.style.display = "block";
+    sizeSection.style.display = "block";
+
+    let sizes = [];
+
+    // Calçados → numeração
+    if (product.category === "Calçados") {
+      sizes = ["38", "39", "40", "41", "42", "43", "44"];
+    }
+    // Acessórios → esconder tudo (não mostrar bloco)
+    else if (product.category === "Acessórios") {
+      sizeSection.style.display = "none";
+    }
+    // Outros → tamanhos normais
+    else {
+      sizes = ["P", "M", "G", "GG", "XG"];
+    }
+
+    // Criar botões dinamicamente (se houver tamanhos)
+    if (sizes.length > 0) {
+      sizes.forEach((size, index) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "size-btn";
+        btn.setAttribute("data-value", size);
+        btn.setAttribute("aria-pressed", "false");
+        btn.textContent = size;
+
+        // Clique no botão de tamanho: alterna seleção
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          // desmarcar todos
+          sizeContainer.querySelectorAll(".size-btn").forEach((b) => {
+            b.setAttribute("aria-pressed", "false");
+          });
+          // marcar o atual
+          btn.setAttribute("aria-pressed", "true");
+          selectedSize = size;
+        });
+
+        sizeContainer.appendChild(btn);
+      });
+    }
+  }
+
+  // ------- BOTÕES: adicionar/remover/wishlist -------
+  const addBtn = document.getElementById("add-to-cart-modal");
+  const removeBtn = document.getElementById("remove-to-cart");
+  const wishlistBtn = document.getElementById("add-to-wishlist-modal");
+
+  if (addBtn) {
+    // Passa o tamanho selecionado (se existir) para a função addToCart
+    addBtn.onclick = () => {
+      // Se o produto exige tamanho (sizeSection visível) e não foi selecionado, impede
+      if (
+        sizeSection &&
+        sizeSection.style.display !== "none" &&
+        sizeContainer &&
+        sizeContainer.children.length > 0 &&
+        !selectedSize
+      ) {
+        showToast("Selecione um tamanho antes de adicionar ao carrinho.");
+        return;
+      }
+      // addToCart deve aceitar (productId, size) — caso sua função atual ignore size, continue funcionando
+      addToCart(product.id, selectedSize);
+      showToast("Produto adicionado ao carrinho.");
+    };
+  }
+
+  if (removeBtn) {
+    removeBtn.onclick = () => {
+      removeFromCart(product.id);
+      showToast("Produto removido do carrinho.");
+    };
+  }
+
+  if (wishlistBtn) {
+    wishlistBtn.onclick = () => {
+      toggleWishlist(product.id);
+      // atualizar ícone
+      if (wishlistIcon) {
+        wishlistIcon.className = isFavorite(product.id)
+          ? "fas fa-heart"
+          : "far fa-heart";
+      }
+      // re-render produtos para refletir mudança se quiser
+      renderProducts("all");
+      import("./productGrid.js").then(({ attachProductEventListeners }) => {
+        if (attachProductEventListeners) attachProductEventListeners();
+      });
+    };
+  }
 }
 
 /**
@@ -301,7 +372,7 @@ export function initializeProductGrid() {
 
       // Anexa eventos após renderizar
       import("./productGrid.js").then(({ attachProductEventListeners }) => {
-        attachProductEventListeners();
+        if (attachProductEventListeners) attachProductEventListeners();
       });
     }
   });

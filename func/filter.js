@@ -12,10 +12,10 @@ const CATEGORY_NORMALIZE = {
   jaquetas: "jaquetas",
   moletons: "moletons",
   calças: "calças",
-  calcas: "calças", // fallback sem acento
+  calcas: "calças",
   bermudas: "bermudas",
   acessorios: "acessorios",
-  accessories: "acessorios", // fallback inglês
+  accessories: "acessorios",
   fashion: "casual",
   electronics: "electronics",
 };

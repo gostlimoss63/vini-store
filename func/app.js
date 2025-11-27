@@ -100,10 +100,6 @@ export function initCategoryFilters() {
   });
 }
 
-// ...existing code...
-
-// ...existing code...
-
 // Helpers para salvar/ler usuário (localStorage)
 function saveUser(user) {
   try {
@@ -178,10 +174,6 @@ function initAccountModal() {
     }
   });
 }
-
-// ...existing code...
-
-// ...existing code...
 
 export function initFavoriteFilter() {
   const btn = document.getElementById("favorite-btn");

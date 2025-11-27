@@ -14,13 +14,13 @@ export const state = {
 };
 
 // -------------------------
-// STORAGE KEYS
+// CHAVE DE ARMAZENAMENTO
 // -------------------------
 const STORAGE_KEY = "vintcy-cart_v1";
 const WISHLIST_KEY = "wishlist";
 
 // -------------------------
-// LOAD WISHLIST (agora antes de usar)
+// CARREGAR WISHLIST (agora antes de usar)
 // -------------------------
 export function loadWishlist() {
   try {
@@ -36,7 +36,7 @@ export function loadWishlist() {
 state.wishlist = loadWishlist();
 
 // -------------------------
-// SAVE WISHLIST
+// SALVAR WISHLIST
 // -------------------------
 export function saveWishlist() {
   try {
@@ -47,7 +47,7 @@ export function saveWishlist() {
 }
 
 // -------------------------
-// CART STORAGE
+// ARMAZENAMENTO DO CARRINHO
 // -------------------------
 function saveCart() {
   try {
@@ -67,7 +67,7 @@ function loadCart() {
 }
 
 // -------------------------
-// ADD TO CART
+// ADICIONAR AO CARRINHO
 // -------------------------
 export function addToCart(productId) {
   const product = products.find((p) => p.id === productId);
@@ -87,7 +87,7 @@ export function addToCart(productId) {
 }
 
 // -------------------------
-// UPDATE CART COUNT
+// ATUALIZAR CONTAGEM DO CARRINHO
 // -------------------------
 export function updateCartCount() {
   state.cartCount = state.cart.reduce(
@@ -105,7 +105,7 @@ export function updateCartCount() {
 }
 
 // -------------------------
-// REMOVE FROM CART
+// REMOVER DO CARRINHO
 // -------------------------
 export function removeFromCart(productId, qty = 1, qtyAll = false) {
   const product = products.find((p) => String(p.id) === String(productId));
@@ -139,7 +139,7 @@ export function removeFromCart(productId, qty = 1, qtyAll = false) {
 }
 
 // -------------------------
-// CLEAR CART
+// LIMPAR CARRINHO
 // -------------------------
 export function clearCart() {
   state.cart = [];
@@ -149,7 +149,7 @@ export function clearCart() {
 }
 
 // -------------------------
-// INIT
+// INICIALIZAR
 // -------------------------
 export function initCartFromStorage() {
   loadCart();

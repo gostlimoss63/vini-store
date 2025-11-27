@@ -108,7 +108,7 @@ export function initSlider() {
     }
   };
 
-  // Buttons
+  // Botões
   prev?.addEventListener("click", () => {
     prevFn();
     resetAutoplay();
@@ -119,7 +119,7 @@ export function initSlider() {
     resetAutoplay();
   });
 
-  // Keyboard arrows
+  // Teclas do teclado
   window.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") {
       prevFn();
@@ -130,7 +130,7 @@ export function initSlider() {
     }
   });
 
-  // Touch swipe
+  // Toque para deslizar
   let startX = 0;
   let moveX = 0;
 
@@ -182,7 +182,7 @@ export function initSlider() {
     startAutoplay();
   };
 
-  // On resize
+  // Tempo de redimensionamento
   let resizeTimer = null;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);

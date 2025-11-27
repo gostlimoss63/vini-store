@@ -1,7 +1,7 @@
 // func/config.js
-// Central configuration for the application.
+// Configuração central para a aplicação.
 
-export const BASE = "./fragments/"; // The folder where your HTML fragments are located.
+export const BASE = "./fragments/"; // A pasta base para os fragmentos HTML.
 export const FRAGS = [
   "header",
   "slider",
@@ -9,4 +9,4 @@ export const FRAGS = [
   "product_grid",
   "footer",
 ];
-export const AUTOPLAY_MS = 4500; // Autoplay interval for the slider in milliseconds.
+export const AUTOPLAY_MS = 4500; // Intervalo de autoplay para o slider em milissegundos.

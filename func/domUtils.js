@@ -1,23 +1,23 @@
 // func/domUtils.js
-// Reusable utility functions for DOM manipulation.
+// Reutilitários para manipulação do DOM.
 
 /*
- * Selects a single element by its ID.
- * @param {string} n - The ID of the element.
- * @returns {Element|null} The DOM element or null.
+ * Seleciona um único elemento pelo seu ID.
+ * @param {string} n - O ID do elemento.
+ * @returns {Element|null} O elemento DOM ou null.
  */
 export const id = (n) => document.getElementById(n);
 
 /*
- * Selects a single element using a CSS selector.
- * @param {string} selector - The CSS selector.
- * @returns {Element|null} The DOM element or null.
+ * Seleciona um único elemento usando um seletor CSS.
+ * @param {string} selector - O seletor CSS.
+ * @returns {Element|null} O elemento DOM ou null.
  */
 export const getElement = (selector) => document.querySelector(selector);
 
 /*
- * Selects multiple elements using a CSS selector.
- * @param {string} selector - The CSS selector.
- * @returns {NodeList} A NodeList of matching elements.
+ * Seleciona múltiplos elementos usando um seletor CSS.
+ * @param {string} selector - O seletor CSS.
+ * @returns {NodeList} Uma NodeList de elementos correspondentes.
  */
 export const getElements = (selector) => document.querySelectorAll(selector);

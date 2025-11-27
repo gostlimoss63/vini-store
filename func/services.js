@@ -1,13 +1,13 @@
 // func/services.js
-// Service functions for external operations like fetching data.
+// Funções de serviço para carregar fragmentos HTML.
 
-import { BASE, FRAGS } from './config.js';
-import { id } from './domUtils.js';
+import { BASE, FRAGS } from "./config.js";
+import { id } from "./domUtils.js";
 
 /*
- * Fetches text content from a given URL.
- * @param {string} url - The URL to fetch.
- * @returns {Promise<string>} A promise that resolves with the text content.
+ * Busca o conteúdo de texto de uma URL fornecida.
+ * @param {string} url - A URL para buscar.
+ * @returns {Promise<string>} Uma promessa que resolve com o conteúdo de texto.
  */
 export async function fetchText(url) {
   try {
@@ -20,7 +20,7 @@ export async function fetchText(url) {
 }
 
 /*
- * Loads all HTML fragments into the DOM.
+ * Carrega todos os fragmentos HTML no DOM.
  */
 export async function loadFragments() {
   const jobs = FRAGS.map((name) =>
@@ -28,8 +28,7 @@ export async function loadFragments() {
   );
   const settled = await Promise.allSettled(jobs);
   settled.forEach((s) => {
-    if (s.status !== "fulfilled")
-      return console.warn("fragment job failed", s);
+    if (s.status !== "fulfilled") return console.warn("fragment job failed", s);
     const { name, html } = s.value;
     const slot = id(name);
     if (slot)
